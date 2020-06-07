@@ -9,7 +9,7 @@ using namespace cv::xfeatures2d;
 using std::cout;
 using std::endl;
 
-int matchFeatures(const Mat a, const Mat b, Mat res)
+int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
 {
     if ( !a.data || !b.data)
     {
@@ -33,8 +33,8 @@ int matchFeatures(const Mat a, const Mat b, Mat res)
     matcher.match(descriptors_1, descriptors_2, matches);
 
     drawMatches(a, keypoints_1, b, keypoints_2, matches, res);
-    namedWindow("Display Image", WINDOW_AUTOSIZE);
-    imshow("Display Image", res);
+    namedWindow(matchType, WINDOW_AUTOSIZE);
+    imshow(matchType, res);
 
     return 0;
 }
@@ -43,25 +43,23 @@ int main(int argc, char **argv)
 {
     Mat image;
     Mat image1;
+    Mat image2;
     Mat res;
     char file[100];
-    for(auto i = 2; i<10; i++)
+    for(auto i = 2; i<100; i++)
     {
-        sprintf( file, "../capstone/resources/seefood/train/hot_dog/image%d.jpg", i);
+        sprintf( file, "../capstone/resources/hot_dog/images(%d)", i);
         image = imread ( file, IMREAD_GRAYSCALE);
-        sprintf( file, "../capstone/resources/seefood/train/not_hot_dog/image%d.jpg", i);
+        sprintf( file, "../capstone/resources/seefood/train/hot_dog/image%d.jpg", i);
         image1 = imread ( file, IMREAD_GRAYSCALE);
-        if ( !image.data || !image1.data )
+        sprintf( file, "../capstone/resources/seefood/train/not_hot_dog/image%d.jpg", i);
+        image2 = imread ( file, IMREAD_GRAYSCALE);
+        if ( !image.data || !image1.data || !image2.data)
         {
             continue;
         }
-         //imshow("Display Image", image);
-        //showDescriptors(image1);
-        if ( matchFeatures(image , image1, res ) != -1 )
-        {
-            //namedWindow("Display Image", WINDOW_AUTOSIZE);
-            //imshow("Display Image", res);
-        }
+        matchFeatures(image , image1, res , "Hot Dog" ) ;
+        matchFeatures(image , image2, res , "Not Hot Dog") ;
         waitKey(0);
     }
 
