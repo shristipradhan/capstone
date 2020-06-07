@@ -43,7 +43,7 @@ int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
     drawMatches(a, keypoints_1, b, keypoints_2, raw_matches, res);
     namedWindow(matchType, WINDOW_AUTOSIZE);
     imshow(matchType, res);
-    cout<<"Match Percentage" << raw_matches.
+    //cout<<"Match Percentage" << raw_matches.
 
     return 0;
 }
