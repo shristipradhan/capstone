@@ -29,7 +29,7 @@ int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
     extractor->compute(b, keypoints_2, descriptors_2);
 
     static const cv::Ptr<cv::flann::IndexParams> index_params = new cv::flann::KDTreeIndexParams(16);
-    static const cv::Ptr<cv::flann::SearchParams> search_params = new cv::flann::SearchParams(32, 1.0, false);
+    static const cv::Ptr<cv::flann::SearchParams> search_params = new cv::flann::SearchParams(32, 0.0, false);
     //static const cv::Ptr<cv::flann::IndexParams> index_params = new cv::flann::KDTreeIndexParams(4);
     //static const cv::Ptr<cv::flann::SearchParams> search_params = new cv::flann::SearchParams(32, 1.0, true);
     cv::FlannBasedMatcher matcher(index_params, search_params);
@@ -43,8 +43,6 @@ int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
     drawMatches(a, keypoints_1, b, keypoints_2, raw_matches, res);
     namedWindow(matchType, WINDOW_AUTOSIZE);
     imshow(matchType, res);
-    cout<<"Match Percentage" << raw_matches.
-
     return 0;
 }
 
@@ -62,9 +60,9 @@ int main(int argc, char **argv)
         image = imread ( file, IMREAD_ANYCOLOR);
         sprintf( file, "../capstone/resources/train/images(%d)", i+1);
         image_next = imread ( file, IMREAD_ANYCOLOR);
-        sprintf( file, "../capstone/resources/test/hot_dog/images(%d)", i);
+        sprintf( file, "../capstone/resources/test/soft_test/hot_dog/images(%d)", i);
         image1 = imread ( file, IMREAD_ANYCOLOR);
-        sprintf( file, "../capstone/resources/test/not_hot_dog/images(%d)", i);
+        sprintf( file, "../capstone/resources/test/soft_test/not_hot_dog/images(%d)", i);
         image2 = imread ( file, IMREAD_ANYCOLOR);
         if ( !image.data || !image1.data || !image2.data)
         {
