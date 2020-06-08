@@ -1,15 +1,13 @@
 #include <iostream>
-#include "opencv2/core.hpp"
-#ifdef HAVE_OPENCV_XFEATURES2D
-#include "opencv2/highgui.hpp"
-#include "opencv2/features2d.hpp"
-#include "opencv2/xfeatures2d.hpp"
-using namespace cv;
-using namespace cv::xfeatures2d;
+#include <thread>
+#include "displayimage.h"
+
 using std::cout;
 using std::endl;
 
-int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
+
+
+int DisplayImage::matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
 {
     if ( !a.data || !b.data)
     {
@@ -46,34 +44,56 @@ int matchFeatures(const Mat a, const Mat b, Mat res, String matchType)
     return 0;
 }
 
-int main(int argc, char **argv)
+void DisplayImage::readImage(int imageID)
 {
+    std::lock_guard<std::mutex> lck(_mtx);
+
     Mat image;
     Mat image_next;
     Mat image1;
     Mat image2;
     Mat res;
     char file[100];
-    for(auto i = 2; i<100; i++)
+
+    std::cout << "imageID = " << imageID << std::endl;
+    std::cout << "Hello from thread# " << std::this_thread::get_id() << std::endl;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    sprintf( file, "../capstone/resources/train/images(%d)", imageID);
+    image = imread ( file, IMREAD_ANYCOLOR);
+    sprintf( file, "../capstone/resources/train/images(%d)", imageID+1);
+    image_next = imread ( file, IMREAD_ANYCOLOR);
+    sprintf( file, "../capstone/resources/test/soft_test/hot_dog/images(%d)", imageID);
+    image1 = imread ( file, IMREAD_ANYCOLOR);
+    sprintf( file, "../capstone/resources/test/soft_test/not_hot_dog/images(%d)", imageID);
+    image2 = imread ( file, IMREAD_ANYCOLOR);
+    if ( !image.data || !image1.data || !image2.data)
     {
-        sprintf( file, "../capstone/resources/train/images(%d)", i);
-        image = imread ( file, IMREAD_ANYCOLOR);
-        sprintf( file, "../capstone/resources/train/images(%d)", i+1);
-        image_next = imread ( file, IMREAD_ANYCOLOR);
-        sprintf( file, "../capstone/resources/test/soft_test/hot_dog/images(%d)", i);
-        image1 = imread ( file, IMREAD_ANYCOLOR);
-        sprintf( file, "../capstone/resources/test/soft_test/not_hot_dog/images(%d)", i);
-        image2 = imread ( file, IMREAD_ANYCOLOR);
-        if ( !image.data || !image1.data || !image2.data)
-        {
-            continue;
-        }
-        matchFeatures(image , image_next, res , "Next Hot Dog" ) ;
-        matchFeatures(image , image1, res , "Hot Dog" ) ;
-        matchFeatures(image , image2, res , "Not Hot Dog") ;
-        waitKey(0);
+        return;
+    }
+    matchFeatures(image, image_next, res, "Next Hot Dog");
+    matchFeatures(image, image1, res, "Hot Dog");
+    matchFeatures(image, image2, res, "Not Hot Dog");
+}
+
+int main(int argc, char **argv)
+{
+    std::cout<<"Hello from main thread# " << std::this_thread::get_id() << std::endl;
+
+    //DisplayImage *dispImg = new DisplayImage();
+    std::shared_ptr<DisplayImage> di(new DisplayImage);
+
+    std::vector<std::thread> threads;
+
+    for(auto i = 1; i <= 240; i++)
+    {
+        threads.emplace_back(std::thread(&DisplayImage::readImage, di, i));
+    }
+
+    for (auto& t : threads)
+    {
+        t.join();
     }
 
 	return 0;
 }
-#endif
