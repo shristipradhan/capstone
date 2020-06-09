@@ -13,8 +13,8 @@ using namespace cv::xfeatures2d;
 using std::cout;
 using std::endl;
 
-#define COMPUTE_SIZE 300
-#define TEMPLATE_SIZE 10
+#define COMPUTE_SIZE 500
+#define TEMPLATE_SIZE 35
 
 void MouseCallBack(int event, int x, int y, int flags, void* userdata)
 {
@@ -55,21 +55,21 @@ int matchFeatures(const std::vector<cv::Mat> a, const std::vector<cv::Mat> b, cv
     {
       for(const auto& template_it : a)
       {
-        if(template_it.data)
-        {
-            cv::Rect coke_roi = hotdogMatcher.getMatchingROI(test, template_it);
-            cv::rectangle(test, coke_roi, CV_RGB(0,255,0),4);
-        }
+      if(!template_it.data)
+          continue;
+        cv::Rect coke_roi = hotdogMatcher.getMatchingROI(test, template_it);
+        cv::rectangle(test, coke_roi, CV_RGB(0,255,0),4);
       }
     }
     if (b.size() > 0)
       for(const auto& template_it : b)
       {
-          if(!template_it.data)
-              continue;
+      if(!template_it.data)
+          continue;
 
         cv::Rect hotdog_roi = hotdogMatcher.getMatchingROI(test, template_it);
         cv::rectangle(test, hotdog_roi, CV_RGB(0,0,255),4);
+
       }
     namedWindow(matchType+"Features", WINDOW_AUTOSIZE);
     setMouseCallback(matchType+"Features", MouseCallBack, NULL);
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
         a_small.copyTo(test_coke);
 
         matchFeatures(template_hotdog, template_coke, test_coke, "Green Coke " ) ;
-        matchFeatures(template_hotdog, template_coke, test_hotdog, "Blue Hotdog " ) ;
+        matchFeatures(template_coke, template_hotdog, test_hotdog, "Blue Hotdog " ) ;
 
         waitKey(0);
     }

@@ -43,7 +43,7 @@ cv::Rect TemplateMatcher::getMatchingROI(cv::Mat input, cv::Mat filter)
   else
     { matchLoc = maxLoc; }
 
-  cv::Rect return_rect = cv::Rect(matchLoc.x , matchLoc.y , filter.cols , filter.rows );
+  cv::Rect return_rect = cv::Rect(matchLoc.x , matchLoc.y , filter.cols/(1 + rand()%5) , filter.rows/(1 + rand()%4) );
 
   return return_rect;
 }
