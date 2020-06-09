@@ -7,7 +7,7 @@ double TemplateMatcher::distance(cv::Rect a, cv::Rect b)
   return dist;
 }
 
-cv::Rect TemplateMatcher::getMatchingRectangle(cv::Mat input, cv::Mat filter)
+cv::Rect TemplateMatcher::getMatchingROI(cv::Mat input, cv::Mat filter)
 {
   cv::Mat result;
 
@@ -21,8 +21,8 @@ cv::Rect TemplateMatcher::getMatchingRectangle(cv::Mat input, cv::Mat filter)
   int match_method = 5; //rand()%6;
 
   /// Create the result matrix
-  int result_cols = input.cols;// - filter.cols + 1;
-  int result_rows = input.rows;// - filter.rows + 1;
+  int result_cols = input.cols - filter.cols + 1;
+  int result_rows = input.rows - filter.rows + 1;
   result.create( result_rows, result_cols, CV_32FC1 );
 
   /// Do the Matching and Normalize

@@ -6,5 +6,5 @@ class TemplateMatcher{
 
     //bool validateTemplateCoordinates(cv::Rect trunk, cv::Rect stem);
 
-    cv::Rect getMatchingRectangle(cv::Mat input, cv::Mat filter);
+    cv::Rect getMatchingROI(cv::Mat input, cv::Mat filter);
 };

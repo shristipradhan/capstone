@@ -1,11 +1,12 @@
 #!/bin/sh
+rm -rf ~/capstone
 mkdir -p ~/capstone/src
 cd ~/capstone/src
-git clone https://github.com/shristipradhan/capstone.git
+git clone --single-branch --branch demo-ready https://github.com/shristipradhan/capstone.git
 cd capstone
-git checkout demo-ready
 mkdir -p  build
 cd build
-cmake -D CMAKE_BUILD_TYPE=Release ..
+cmake clean
+cmake -D ..
 make -j$(nproc)
 ./DisplayImage
