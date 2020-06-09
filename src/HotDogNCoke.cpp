@@ -13,8 +13,8 @@ using namespace cv::xfeatures2d;
 using std::cout;
 using std::endl;
 
-#define COMPUTE_SIZE 500
-#define TEMPLATE_SIZE 20
+#define COMPUTE_SIZE 300
+#define TEMPLATE_SIZE 10
 
 void MouseCallBack(int event, int x, int y, int flags, void* userdata)
 {
@@ -119,8 +119,8 @@ int main(int argc, char **argv)
         cv::resize(a,a_small,Size(COMPUTE_SIZE,COMPUTE_SIZE));
         a_small.copyTo(test_coke);
 
-        matchFeatures(template_hotdog, template_coke, test_coke, "Green Coke" ) ;
-        matchFeatures(template_hotdog, template_coke, test_hotdog, "Blue Hotdog" ) ;
+        matchFeatures(template_hotdog, template_coke, test_coke, "Green Coke " ) ;
+        matchFeatures(template_hotdog, template_coke, test_hotdog, "Blue Hotdog " ) ;
 
         waitKey(0);
     }

@@ -8,4 +8,4 @@ mkdir -p  ../build
 cd ../build
 cmake ../capstone
 make -j$(nproc)
-./DisplayImage
+./HotDogNCoke
