@@ -9,4 +9,5 @@ find_package( OpenCV REQUIRED )
 add_executable( HotDogNCoke
 	src/template_matcher.cpp
 	src/HotDogNCoke.cpp )
+
 target_link_libraries( HotDogNCoke ${OpenCV_LIBS} )

@@ -1,28 +1,43 @@
 # HotDogNCoke
+![HotDogNCoke1](resources/HotDogNCoke1.png)
 
-![HotDogNCoke](HotDogNCoke.png)
+In this project, we describe a Naive Convolutional Filter (NCF).
 
-In this project, we demonstrate an HotDogNCoke detector that can detect if there is Coke and/orf HotDog in an Image.
+We demonstrate a use of NCF in an example HotDogNCoke detector project.
+
+HotDocNCoke can detect if there is Coke and/or HotDog in an Image.
+
+It's designed for applications like takeouts or item transfer.
 
 We use sample data from google image search to create our labelled datasets of Coke and HotDog.
-These samples are in `resources/train/hotdog` and `resources/train/coke`
-Based on these templates, we use to apply a convolutional filter on test dataset.
+
+These samples are in `resources/train/hotdog` and `resources/train/coke`.
+
+Based on these templates, we use a Naive Convolutional Filter (NCF) on a test dataset in `resources/test`.
+
 
 # Build Instructions
 
+`release` contains the latest up to date NCF implementation.
+
+Instructions for a clean build from `release` branch of the repository is given below.
+
+
 ```
-rm -rf ~/capstone
-mkdir -p ~/capstone/src
-cd ~/capstone/src
+rm -rf /tmp/capstone
+mkdir -p /tmp/capstone/src
+cd /tmp/capstone/src
 git clone --single-branch --branch release https://github.com/shristipradhan/capstone.git
 cd capstone
 mkdir -p  ../build
 cd ../build
 cmake ../capstone
 make -j$(nproc)
-./DisplayImage
+./HotDogNCoke
 
 ```
+
+![HotDogNCoke3](resources/HotDogNCoke3.png)
 
 # Requirements
 
@@ -42,8 +57,21 @@ make -j$(nproc)
 sudo make install
 ```
 
-# Scripts
 
-There are handy scripts to help automate setup of opencv and this package in `scripts/install.sh` and `scripts/setup_opencv.sh`
+# Handy Scripts
 
-Use as is! 
+There are handy scripts to help automate setup of opencv and this package in `scripts/install.sh` and `scripts/setup_opencv.sh`.
+
+
+# Screenshots
+
+![HotDogNCoke2](resources/HotDogNCoke2.png)
+
+![HotDogNCoke4](resources/HotDogNCoke4.png)
+
+
+# License
+
+Use as is! BSD whereever applicable.
+
+
